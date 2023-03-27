@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h1>{{ rocket?.name }}</h1>
+        <h1>{{ rocket?.rocket_name }}</h1>
         <v-card>
             <v-card-text>
                 <p>{{ rocket?.description }}</p>
@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 interface Rocket {
     id: string
-    name: string
+    rocket_name: string
     description: string
     first_flight: string
     height: { meters: number }
@@ -26,9 +26,8 @@ interface Rocket {
     stages: number
 }
 const query = gql`
-    query getLaunches($rocketId: ID!) {
+    query getRocket {
         rockets {
-            id
             name
             description
             first_flight
@@ -48,7 +47,7 @@ const query = gql`
 
 const rocketId = useRoute().params.id
 const { result } = useQuery(query, {
-    variables: { rocketId },
+    variables: { id: rocketId },
 })
 
 const rocket: Ref<Rocket | undefined> = ref()
